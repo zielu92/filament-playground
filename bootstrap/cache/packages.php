@@ -6,6 +6,13 @@
       'EloquentSerialize' => 'AnourValar\\EloquentSerialize\\Facades\\EloquentSerializeFacade',
     ),
   ),
+  'awcodes/shout' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Awcodes\\Shout\\ShoutServiceProvider',
+    ),
+  ),
   'barryvdh/laravel-debugbar' => 
   array (
     'aliases' => 
@@ -163,6 +170,13 @@
     'providers' => 
     array (
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
+    ),
+  ),
+  'pxlrbt/filament-environment-indicator' => 
+  array (
+    'providers' => 
+    array (
+      0 => '\\pxlrbt\\FilamentEnvironmentIndicator\\FilamentEnvironmentIndicatorServiceProvider',
     ),
   ),
   'ryangjchandler/blade-capture-directive' => 

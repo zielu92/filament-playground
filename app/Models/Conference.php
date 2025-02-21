@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Region;
 use Filament\Forms\Get;
+use Awcodes\Shout\Components\Shout;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
@@ -16,10 +17,10 @@ use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\MarkdownEditor;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Conference extends Model
 {
@@ -82,6 +83,12 @@ class Conference extends Model
             ->description("something here")
             ->columns(['md' => 2, 'lg' => 3])
             ->schema([
+                Shout::make('warn-price')
+                ->type('warning')
+                ->columnSpanFull()
+                ->visible(function(Get $get){
+                    return $get('ticket_costs') > 500;
+                }),
                 TextInput::make('name')
                 ->columnSpanFull()
                 ->label("Conferene name")
@@ -99,6 +106,11 @@ class Conference extends Model
                     ->schema([
                 Toggle::make('is_published')
                 ->default(true),
+                TextInput::make('ticket_costs')
+                ->label("Ticket Cost")
+                ->lazy()
+                ->required()
+                ->maxLength(60),
                 Select::make('status')
                     ->options([
                         'draft' => 'Draft',
