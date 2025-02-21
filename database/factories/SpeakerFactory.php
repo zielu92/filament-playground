@@ -29,9 +29,8 @@ class SpeakerFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->safeEmail(),
             'bio' => fake()->text(),
-            'qualfications' => $qualifcations,
+            'qualifications' => json_encode($qualifcations),
             'twitter_handle' => fake()->word(),
-            'conference_id' => Conference::factory(),
         ];
     }
 

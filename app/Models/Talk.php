@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\Enums\TalkLength;
 use App\Enums\TalkStatus;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Talk extends Model
@@ -22,6 +25,7 @@ class Talk extends Model
         'title',
         'abstrac',
         'speaker_id',
+        'status'
     ];
 
     /**
@@ -44,5 +48,35 @@ class Talk extends Model
     public function conferences(): BelongsToMany
     {
         return $this->belongsToMany(Conference::class);
+    }
+
+    public function approve(): void
+    {
+        $this->status = TalkStatus::APPROVED;
+        $this->save();
+    }
+
+    public function reject(): void
+    {
+        $this->status = TalkStatus::REJECTED;
+        $this->save();
+    }
+
+    public static function getForm($speakerId = null): array
+    {
+        return [
+            TextInput::make('title')
+                ->required()
+                ->maxLength(255),
+            RichEditor::make('abstrac')
+                ->required()
+                ->columnSpanFull(),
+            Select::make('speaker_id')
+                ->hidden(function() use ($speakerId) {
+                    return $speakerId !== null;
+                })
+                ->relationship('speaker', 'name')
+                ->required()
+            ];
     }
 }

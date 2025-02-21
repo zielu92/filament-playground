@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('abstrac');
             $table->string('length')->default(TalkLength::NORMAL);
-            $table->string('statis')->default(TalkStatus::SUBMITTED);
+            $table->string('status')->default(TalkStatus::SUBMITTED);
             $table->boolean('new_talk')->default(true);
             $table->foreignId('speaker_id');
             $table->timestamps();
